@@ -1,0 +1,181 @@
+<HTML>
+<HEAD>
+ <TITLE>Busca com frame e accordion</TITLE>
+ <meta charset = "utf-8">
+
+ <link href='css/busca-atual.css' rel='stylesheet' type='text/css'> 
+ <script src="js/jquery.min.js"></script>
+ <script src="js/jquery.mask.min.js"></script>
+ <link href='css/jquery-ui.min.css' rel="stylesheet" type='text/css'>
+ <script src="js/jquery-ui.min.js"></script>  
+
+</HEAD>
+<BODY>
+	
+	<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+
+	<p>Suspendisse ac consectetur est. Quisque odio dui, fermentum sed commodo sed, eleifend ut nibh. Vivamus cursus laoreet ultricies. Etiam eu bibendum metus. Maecenas nec nulla nec nisl pulvinar fermentum nec sit amet ante.</p>
+	<p>Aenean quis iaculis risus. Vestibulum eget arcu sed mauris scelerisque varius. Nulla facilisi. Suspendisse ornare ultrices augue accumsan pulvinar. Donec finibus laoreet ante, sit amet vulputate turpis ornare nec.</p>
+	<p>Exemplo de preenchimento do Tipo 1:</p>
+	<p><img alt="" height="103" src="imagem/preenchimento.png" width="279">
+
+	<button id="opener" class="ui-state-default ui-corner-all">		
+		Clique para <br> Guia de Produtos
+	</button></p>
+	<br><br>
+
+	<div id="dialog" title="GUIA DE PRODUTOS DISPONÍVEIS">
+	<table id="tab" cellspacing="0" border="1">
+		<body  >
+			<tr>
+				<th class="rtecenter" colspan="4">PRODUTOS</th>
+			</tr>
+			<tr>
+				<th>NOME</th>
+				<th class="rtecenter">DESCRI&Ccedil;&Atilde;O</th>
+				<th class="rtecenter">ARQUIVO</th>
+				<th class="rtecenter">ANO</th>
+			</tr>
+
+			<tr>
+				<td>NULLAM PORTTITOR</td>
+				<td>Nullam porttitor ante quis est facilisis, in blandit erat elementum. Nullam pellentesque est sed libero pulvinar, vitae tempus diam iaculis. Curabitur cursus consectetur mattis. Suspendisse vitae lobortis neque.</td>
+				<td>NULLAM-PORTTITOR</td>				
+				<td>2049</td>
+			</tr>
+
+			<tr>
+				<td>QUISQUE U. MAURIS</td>
+				<td>Quisque ultrices mauris aliquet tincidunt laoreet. Phasellus eu enim sed ex mollis suscipit sed quis libero. Pellentesque nisl sem, aliquam vitae varius sed, lacinia a ligula. Maecenas quis condimentum quam. Pellentesque eu hendrerit arcu, vel porta sapien. Vivamus quis erat mauris.</td>
+				<td>QUISQUE-ULTRICES-MAURIS</td>				
+				<td>2053</td>
+			</tr>
+
+			<tr>
+				<td>PELLENTESQUE ARCU LACUS</td>
+				<td>Pellentesque arcu lacus, dignissim iaculis metus tempus, porttitor rhoncus leo. Nunc gravida quam diam, ac mattis justo rhoncus a. Praesent felis felis, efficitur et diam congue, luctus pellentesque eros. Aenean sit amet elit non nisi feugiat vulputate. Nullam nec est dictum, euismod velit tempus, imperdiet justo. Morbi consectetur congue massa eget laoreet.</td>
+				<td>PELLENTESQUE</td>				
+				<td>2069</td>
+			
+			</tr>
+			
+			<tr>
+				<td>PRETIUM MORBI</td>
+				<td>Nunc efficitur mollis diam. Morbi pretium aliquam urna, in rhoncus sem tristique non. Interdum et malesuada fames ac ante ipsum primis in faucibus.</td>
+				<td>MORBI-PRETIUM</td>				
+				<td>2033, 2048 e 2074</td>
+			</tr>
+
+			<tr>
+				<td>ET MALESUADA (INTERDUM)</td>
+				<td>Aenean in ex ultricies, placerat tortor vel, condimentum felis. Donec orci dolor, dictum in bibendum non, eleifend eget mauris. Etiam felis risus, vestibulum nec justo sed, malesuada eleifend felis. Interdum et malesuada fames ac ante ipsum primis in faucibus. Quisque fringilla diam et mauris faucibus porttitor. Praesent dictum justo non erat convallis pharetra.</td>
+				<td>INTERDUM-ET-MALESUADA</td>				
+				<td>2031 e 2067</td>
+			</tr>						
+		</table>
+</div>
+
+ <!--action="resultado_acervo.php" method="post" --> 
+   <form name="form1" action="javascript:void(0);" target="pesquisa">
+		<center>
+			<table id=topo>
+				<tr>
+					<td><label for="msg">Pesquisa por</label></td>
+					<td>
+						<select name="tipo" id="tipo">
+							 <option value="tipo1">Tipo 1</option>
+							 <option value="tipo2">Tipo 2</option>
+						</select>
+					</td>
+					<td><label for="msg">Valor</label></td>
+					<td><input type="text" id="codigo" name="codigo"></td>
+					<td><div class="button">
+							<button type="submit" onclick= "abrir()">Buscar</button>
+						</div>
+					</td>				
+				 </tr>
+			</table>
+	</form>
+	<br>
+
+
+
+	<center >
+		<iframe id="frame" src="" style="border:1px solid #eee;height:500px;width:65%;" name="pesquisa"></iframe>
+	</center>
+
+	<hr>
+
+
+	<script>
+	
+	$(function() {
+		// Aplicar ou remover máscara o dropdown mudar de valor
+		$("#tipo").change(function() {
+			if($("#tipo").val() == "tipo1") {
+				$('#codigo').mask('999999f.999f.999-z', {'translation': {
+					f: {pattern: /[A-Z-a-z- ]/},
+					z: {pattern: /[A-Z-a-z-0-9]/},
+					9: {pattern: /[0-9]/}
+				}
+				});
+			} else {
+				$("#codigo").unmask();
+			}
+			//Limpa o valor do campo codigo toda vez que muda o dropdown
+			$("#codigo").val("");
+		});
+		// Aplicar máscara quando página carregar
+		if($("#tipo").val() == "tipo1") {
+			$('#codigo').mask('999999f.999f.999-z', {'translation': {
+					f: {pattern: /[A-Z-a-z- ]/},
+					z: {pattern: /[A-Z-a-z-0-9]/},
+					9: {pattern: /[0-9]/}
+				}
+				});
+		}
+	});
+
+	$('#dialog').dialog({
+    	autoOpen: false,
+		width: 750,
+		height: 600,
+	});
+	$('#opener').click(function() {
+    	$('#dialog').dialog('open');
+    	return false;
+	});
+
+	function abrir(){
+
+		var nome = form1.codigo.value.trim();
+		var nome2 = form1.tipo.value;
+
+		if (nome2 == "tipo1") {
+			if (nome.length != 18) {
+				alert('Digite um tipo 1 válido!\nVeja o exemplo em tela');
+				form1.codigo.focus();
+				return false;
+			} else {
+				document.getElementById("frame").src="resultado_acervo.php";
+			}
+		}
+
+		if (nome2 == "tipo2") {
+			if (nome.length == "") {
+				alert('Digite um tipo 2 válido!\nEx: 9999999');
+				form1.codigo.focus();
+				return false;
+			} else if (nome.length < 7 || nome.length > 7) {
+				alert('Digite um tipo 2 válido!\nEx: 9999999');
+				form1.codigo.focus();
+				return false;
+			} else {
+				document.getElementById("frame").src="resultado_acervo.php";
+			}
+		}		
+	}
+	</script>
+	
+</BODY>
+</HTML>
